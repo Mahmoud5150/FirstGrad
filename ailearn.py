@@ -1,13 +1,24 @@
 import torch
-import numpy as np
 
+features = torch.tensor([
+    [1.0,2.0],
+    [3.0,4.0],
+    [5.0,6.0],
+    [7.0,8.0],
+    [9.0,10.0],
+])
 
-x = torch.tensor(2.0, requires_grad=True)
+y_true = torch.tensor([
+    [8.0],
+    [9.0],
+    [10.0],
+    [7.0],
+    [15.0]
+])
 
-y = x**2+x*3+4
+w = torch.randn(2,1)
+b = torch.randn(1)
 
-y.backward()
-print(x.grad)
+Y_prediction = features @ w + b
 
-randomTensor = torch.rand(3,3)
-print(randomTensor)
+print(Y_prediction)

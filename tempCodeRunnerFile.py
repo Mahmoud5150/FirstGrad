@@ -1,1 +1,1 @@
-print(randomTensor)
+print(x.grad)
