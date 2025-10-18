@@ -16,9 +16,32 @@ y_true = torch.tensor([
     [15.0]
 ])
 
-w = torch.randn(2,1)
-b = torch.randn(1)
+w = torch.randn(2,1 , requires_grad=True)
+b = torch.randn(1, requires_grad=True)
 
-Y_prediction = features @ w + b
+print(f"Old weight: {w}")
+print(f"Old bias: {b}")
 
-print(Y_prediction)
+lr = 0.001
+
+for epoch in range(5000):
+
+    Y_prediction = features @ w + b
+    loss = ((Y_prediction-y_true)**2).mean()
+
+    loss.backward()
+
+    with torch.no_grad():
+        w -= lr * w.grad
+        b -= lr * b.grad
+
+    w.grad.zero_()
+    b.grad.zero_()
+
+    if epoch % 1000 == 0:
+        print(f"Epoch {epoch:4d} | Loss : {loss.item():.6f}")
+
+print(f"New weight: {w}")
+print(f"New bias: {b}")
+print(f"New y pred: {Y_prediction}")
+print(f"New loss: {loss.item():.6f}")
