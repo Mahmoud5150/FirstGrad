@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+import matplotlib.pyplot as plt
 
 features = torch.tensor([
     [1.0,2.0],
@@ -24,11 +25,13 @@ print(f"Old weight: {w}")
 print(f"Old bias: {b}")
 
 lr = 0.001
+losses = []
 
 for epoch in range(5000):
 
     Y_prediction = F.relu(features @ w + b)
     loss = ((Y_prediction-y_true)**2).mean()
+    losses.append(loss.item())
 
     loss.backward()
 
@@ -46,3 +49,16 @@ print(f"New weight: {w}")
 print(f"New bias: {b}")
 print(f"New y pred: {Y_prediction}")
 print(f"New loss: {loss.item():.6f}")
+
+plt.plot(losses)
+plt.xlabel("Epoch")
+plt.ylabel("Loss")
+plt.title("Training Loss")
+plt.show()
+
+plt.scatter(y_true.detach(), Y_prediction.detach())
+plt.plot([y_true.min(), y_true.max()], [y_true.min(), y_true.max()], 'r--')
+plt.xlabel("True Values")
+plt.ylabel("Predicted Values")
+plt.title("True vs Predicted")
+plt.show()
