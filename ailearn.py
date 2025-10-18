@@ -1,4 +1,5 @@
 import torch
+import torch.nn.functional as F
 
 features = torch.tensor([
     [1.0,2.0],
@@ -26,7 +27,7 @@ lr = 0.001
 
 for epoch in range(5000):
 
-    Y_prediction = features @ w + b
+    Y_prediction = F.relu(features @ w + b)
     loss = ((Y_prediction-y_true)**2).mean()
 
     loss.backward()
